@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FLAMES Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffe6f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 350px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff66b2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3385;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #4caf50;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>FLAMES</h2>
+    <input type="text" id="name1" placeholder="Enter name 1">
+    <input type="text" id="name2" placeholder="Enter name 2">
+    <br>
+    <button onclick="flamesResult()">Find Relationship</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function flamesResult() {
+      let name1 = document.getElementById('name1').value.trim().toLowerCase();
+      let name2 = document.getElementById('name2').value.trim().toLowerCase();
+
+      if (!name1 || !name2) {
+        document.getElementById('result').innerText = "Please enter both names!";
+        return;
+      }
+
+      let list1 = name1.split('');
+      let list2 = name2.split('');
+
+      // Remove common characters
+      for (let i = 0; i < list1.length; i++) {
+        let index = list2.indexOf(list1[i]);
+        if (index !== -1) {
+          list1[i] = '';
+          list2[index] = '';
+        }
+      }
+
+      let finalString = list1.join('') + list2.join('');
+      let count = finalString.length;
+
+      let flames = ['F', 'L', 'A', 'M', 'E', 'S'];
+      let index = 0;
+
+      while (flames.length > 1) {
+        index = (index + count - 1) % flames.length;
+        flames.splice(index, 1);
+      }
+
+      let resultChar = flames[0];
+      let message = '';
+
+      switch (resultChar) {
+        case 'F':
+          message = "tadw, you two are FRIENDS eeewww...";
+          break;
+        case 'L':
+          message = "you two are LOVERS eeewww....";
+          break;
+        case 'A':
+          message = "you two are ATTRACTED to each other eeewww....";
+          break;
+        case 'M':
+          message = "you two, go and get MARRIED soon....";
+          break;
+        case 'E':
+          message = "It is bad to say that you two are ENEMIES....";
+          break;
+        case 'S':
+          message = "you two seem to be STRANGERS....";
+          break;
+      }
+
+      document.getElementById('result').innerText = message;
+    }
+  </script>
+</body>
+</html>
